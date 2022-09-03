@@ -5,12 +5,6 @@ Created on Fri Sep  2 13:22:46 2022
 @author: angel
 """
 
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep  2 10:18:27 2022
-
-@author: angel
-"""
 #imports
 import requests as r
 from bs4 import BeautifulSoup
