@@ -40,8 +40,7 @@ for p in pager:
     
 
 
-
-m   
+  
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""         
                           Task 2: Print iPhone Details
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -65,27 +64,6 @@ print(iphone_color)
                  Task 3: Extract storage & camera features
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-
-
-
-# urllist = [url]
-# for p in pager: 
-#     urllist.append(url + p['href']) 
-    
-# for url in urllist:
-#     res = r.get(url)
-#     soup = BeautifulSoup(res.content, 'lxml')
-
-#     userlist = soup.find('div', attrs = {'id':'UsrIndex'}).find_all('tr')
-#     for tr in userlist:
-#         usertds = tr.find_all('td')
-#         if len(usertds) ==7:
-#             #print user info
-#             print('Rank:',usertds[1].text)
-#             print('ID: ',usertds[0].find('a')['href'].split('id=')[1].split('&page')[0])
-            
-#             break
             
     
 
