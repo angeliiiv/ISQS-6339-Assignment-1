@@ -103,7 +103,7 @@ filename = 'assignemnt_1_group_11.csv'
 lowval = 5
 highval = 7
 
-#aseembling the list of url
+#aseembling the list of url we will need for the entire assignent.
 res1 = r.get(url)
 soup1 = BeautifulSoup(res1.content, 'lxml')
 
@@ -135,28 +135,21 @@ for page in urllist1:
     for li in phonelist:
         phoneinfo = li.find_all('li')
         if len(phoneinfo)==3:
-            
+            print('color', phoneinfo[0].text.split('Color: ')[1])
+            print('os', phoneinfo[1].text.split('OS: ')[1])  
             childhref1 = url + phoneinfo[2].find('a')['href']
             
             childres1 = r.get(childhref1)
             childsoup1 = BeautifulSoup(childres1.content, 'lxml')
             
-            phonetr = childsoup1.find('div', attrs={'id' : 'Phoneinitial', 'class' : 'right'}).find_all('tr')
-            
-            print(phoneinfo)
+            phonetr = childsoup1.find('div', attrs={'id' : 'Phoneinitial'}).find('table').find_all('tr')
             print(phonetr)
+
+
             for phonedetails in phonetr:
                 phonetds = phonedetails.find_all('td')
-                if len(phonetds) == 3:
-                    print('href', url + phoneinfo[2].find('a')['href'])
-                    print('product_size', phonetds[0].text)
-                    print('storage', phonetds[1].text)
-                    print('network', phonetds[2].text)
-            
-                    print('color', phoneinfo[0].text.split('Color: ')[1])
-                    print('os', phoneinfo[1].text.split('OS: ')[1])  
-    
-    
+                print(phonetds)
+    ###still need to split out the additional details from the chlid page.
     break
 
 
