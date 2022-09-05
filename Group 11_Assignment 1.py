@@ -96,48 +96,68 @@ for li in front_camera_features:
                  Task 4: Export data to csv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 ###****This is a Work in Progress
+
 url = 'http://drd.ba.ttu.edu/isqs6339/assign/assign_1/'
 filepath = 'C:\\Users\Dstrawma\Downloads' 
 filename = 'assignemnt_1_group_11.csv'
 lowval = 5
 highval = 7
 
-#aseembling the list of url we will need for the entire assignent.
+#aseembling the list of url
 res1 = r.get(url)
 soup1 = BeautifulSoup(res1.content, 'lxml')
 
 pager1 = soup1.find('div', attrs={'id' : 'phonelist'}).find_all('a')
-for p in pager1:
-    print(p['href'])
+#for p in pager1:
+    #print(p['href'])
 
 #Create URL list
 urllist1 = [url]
 
+#append URL list
 for p in pager1:
     urllist1.append(url + p['href'])
+    #print(p['href'])
 
 for page in urllist1:
     res1 = r.get(page)
     soup1 = BeautifulSoup(res1.content, 'lxml')
     
-    phonelist = soup1.find('div', attrs={'id' : 'phonelist'}).find_all('li')
+    phonelist = soup1.find_all('li', attrs={'class' : 'root'})
+    #print(phonelist)
     
-print(phonelist)
+
     
+    for span in phonelist:
+        phonenames = span.find_all('span')
+        if len(phonenames) == 1:
+            print('product_name', phonenames[0].text)
     for li in phonelist:
         phoneinfo = li.find_all('li')
-        if len(phoneinfo) == 3:
-            #print(phoneinfo)
-            print('Color', phoneinfo[1].text)
+        if len(phoneinfo)==3:
+            
+            childhref1 = url + phoneinfo[2].find('a')['href']
+            
+            childres1 = r.get(childhref1)
+            childsoup1 = BeautifulSoup(childres1.content, 'lxml')
+            
+            phonetr = childsoup1.find('div', attrs={'id' : 'Phoneinitial', 'class' : 'right'}).find_all('tr')
+            
             print(phoneinfo)
-            print(phoneinfo)
-        
+            print(phonetr)
+            for phonedetails in phonetr:
+                phonetds = phonedetails.find_all('td')
+                if len(phonetds) == 3:
+                    print('href', url + phoneinfo[2].find('a')['href'])
+                    print('product_size', phonetds[0].text)
+                    print('storage', phonetds[1].text)
+                    print('network', phonetds[2].text)
+            
+                    print('color', phoneinfo[0].text.split('Color: ')[1])
+                    print('os', phoneinfo[1].text.split('OS: ')[1])  
     
     
     break
-
-
-
 
 
 
