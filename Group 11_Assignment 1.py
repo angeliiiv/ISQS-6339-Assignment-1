@@ -95,9 +95,46 @@ for li in front_camera_features:
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""         
                  Task 4: Export data to csv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+###****This is a Work in Progress
+url = 'http://drd.ba.ttu.edu/isqs6339/assign/assign_1/'
+filepath = 'C:\\Users\Dstrawma\Downloads' 
+filename = 'assignemnt_1_group_11.csv'
+lowval = 5
+highval = 7
 
+#aseembling the list of url we will need for the entire assignent.
+res1 = r.get(url)
+soup1 = BeautifulSoup(res1.content, 'lxml')
 
+pager1 = soup1.find('div', attrs={'id' : 'phonelist'}).find_all('a')
+for p in pager1:
+    print(p['href'])
 
+#Create URL list
+urllist1 = [url]
+
+for p in pager1:
+    urllist1.append(url + p['href'])
+
+for page in urllist1:
+    res1 = r.get(page)
+    soup1 = BeautifulSoup(res1.content, 'lxml')
+    
+    phonelist = soup1.find('div', attrs={'id' : 'phonelist'}).find_all('li')
+    
+print(phonelist)
+    
+    for li in phonelist:
+        phoneinfo = li.find_all('li')
+        if len(phoneinfo) == 3:
+            #print(phoneinfo)
+            print('Color', phoneinfo[1].text)
+            print(phoneinfo)
+            print(phoneinfo)
+        
+    
+    
+    break
 
 
 
