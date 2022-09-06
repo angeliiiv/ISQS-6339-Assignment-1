@@ -98,7 +98,7 @@ for li in front_camera_features:
 ###****This is a Work in Progress
 
 url = 'http://drd.ba.ttu.edu/isqs6339/assign/assign_1/'
-filepath = 'C:\\Users\Dstrawma\Downloads' 
+filepath = 'C:\\Users\Dstrawma\OneDrive - JNJ\MYDATA\WFA\TTU\Business Intelligence'
 filename = 'assignemnt_1_group_11.csv'
 lowval = 5
 highval = 7
@@ -119,39 +119,46 @@ for p in pager1:
     urllist1.append(url + p['href'])
     #print(p['href'])
 
-for page in urllist1:
-    res1 = r.get(page)
-    soup1 = BeautifulSoup(res1.content, 'lxml')
+with open(filepath + filename, 'w') as dataout1:
+    datawriter = csv.writer(dataout1, delimiter=',', quotechar='"', quoting=csv.QUOTE_NONNUMERIC)
+    #write header row
+    datawriter.writerow(['product_name', 'color', 'os', 'product_size', 'storage', 'network'])
+
+    for page in urllist1:
+        res1 = r.get(page)
+        soup1 = BeautifulSoup(res1.content, 'lxml')
+        
+        phonelist = soup1.find_all('li', attrs={'class' : 'root'})
+        #print(phonelist)
+        
     
-    phonelist = soup1.find_all('li', attrs={'class' : 'root'})
-    #print(phonelist)
-    
-
-    
-    for span in phonelist:
-        phonenames = span.find_all('span')
-        if len(phonenames) == 1:
-            print('product_name', phonenames[0].text)
-    for li in phonelist:
-        phoneinfo = li.find_all('li')
-        if len(phoneinfo)==3:
-            print('color', phoneinfo[0].text.split('Color: ')[1])
-            print('os', phoneinfo[1].text.split('OS: ')[1])  
-            childhref1 = url + phoneinfo[2].find('a')['href']
-            
-            childres1 = r.get(childhref1)
-            childsoup1 = BeautifulSoup(childres1.content, 'lxml')
-            
-            phonetr = childsoup1.find('div', attrs={'id' : 'Phoneinitial'}).find('table').find_all('tr')
-            print(phonetr)
-
-
-            for phonedetails in phonetr:
-                phonetds = phonedetails.find_all('td')
-                print(phonetds)
-    ###still need to split out the additional details from the chlid page.
-    break
-
+        for names in phonelist:
+            phonenames = names.find_all('span')
+            if len(phonenames) == 1:
+                print('========================')
+                print('product_name', phonenames[0].text)
+                datawriter.writerow([phonenames[0].text])
+            for li in phonelist:
+                    phoneinfo = names.find_all('li')
+                    if len(phoneinfo)==3:
+                        print('color', phoneinfo[0].text.split('Color: ')[1])
+                        print('os', phoneinfo[1].text.split('OS: ')[1])
+                        datawriter.writerow([phoneinfo[0].text.split('Color: ')[1]])
+                        datawriter.writerow([phoneinfo[1].text.split('OS: ')[1]])
+                    childhref1 = url + phoneinfo[2].find('a')['href']
+                    
+                    childres1 = r.get(childhref1)
+                    childsoup1 = BeautifulSoup(childres1.content, 'lxml')
+                    
+                    phonetr = childsoup1.find('div', attrs={'id' : 'Phoneinitial'}).find('table').find_all('tr')
+        
+        
+                    for phonedetails in phonetr:
+                        phonetds = phonedetails.find_all('td')
+                        if len(phonetds) == 2:
+                            print((phonetds[0].text.split(':')[0]) +' '+ (phonetds[1].text))
+                            datawriter.writerow([phonetds[1].text])
+                    break
 
 
 
