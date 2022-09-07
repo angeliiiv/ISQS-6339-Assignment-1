@@ -95,8 +95,10 @@ for li in front_camera_features:
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""         
                  Task 4: Export data to csv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-###****This is a Work in Progress
 
+import requests as r
+from bs4 import BeautifulSoup
+import csv
 url = 'http://drd.ba.ttu.edu/isqs6339/assign/assign_1/'
 filepath = 'C:\\Users\Dstrawma\OneDrive - JNJ\MYDATA\WFA\TTU\Business Intelligence'
 filename = 'assignemnt_1_group_11.csv'
@@ -129,7 +131,7 @@ with open(filepath + filename, 'w') as dataout1:
         soup1 = BeautifulSoup(res1.content, 'lxml')
         
         phonelist = soup1.find_all('li', attrs={'class' : 'root'})
-        #print(phonelist)
+        print(phonelist)
         
     
         for names in phonelist:
@@ -137,30 +139,39 @@ with open(filepath + filename, 'w') as dataout1:
             if len(phonenames) == 1:
                 print('========================')
                 print('product_name', phonenames[0].text)
-                datawriter.writerow([phonenames[0].text])
+                #datawriter.writerow([phonenames[0].text])
             for li in phonelist:
-                    phoneinfo = names.find_all('li')
-                    if len(phoneinfo)==3:
-                        print('color', phoneinfo[0].text.split('Color: ')[1])
-                        print('os', phoneinfo[1].text.split('OS: ')[1])
-                        datawriter.writerow([phoneinfo[0].text.split('Color: ')[1]])
-                        datawriter.writerow([phoneinfo[1].text.split('OS: ')[1]])
-                    childhref1 = url + phoneinfo[2].find('a')['href']
-                    
-                    childres1 = r.get(childhref1)
-                    childsoup1 = BeautifulSoup(childres1.content, 'lxml')
-                    
-                    phonetr = childsoup1.find('div', attrs={'id' : 'Phoneinitial'}).find('table').find_all('tr')
+                phoneinfo = names.find_all('li')
+            if len(phoneinfo)==3:ArithmeticError
+            print('color', phoneinfo[0].text.split('Color: ')[1])
+            print('os', phoneinfo[1].text.split('OS: ')[1])
+                           # datawriter.writerow([phoneinfo[0].text.split('Color: ')[1],
+                           #                      phoneinfo[1].text.split('OS: ')[1]
+                           #                      ])
+            childhref1 = url + phoneinfo[2].find('a')['href']
+                        
+            childres1 = r.get(childhref1)
+            childsoup1 = BeautifulSoup(childres1.content, 'lxml')
+                        
+            phonetr = childsoup1.find('div', attrs={'id' : 'Phoneinitial'}).find('table').find_all('tr')
+    
         
-        
-                    for phonedetails in phonetr:
-                        phonetds = phonedetails.find_all('td')
-                        if len(phonetds) == 2:
-                            print((phonetds[0].text.split(':')[0]) +' '+ (phonetds[1].text))
-                            datawriter.writerow([phonetds[1].text])
-                    break
+            for phonedetails in phonetr:
+                phonetds = phonedetails.find_all('td')
+                if len(phonetds) == 2:
+                                print((phonetds[0].text.split(':')[0]) +' '+ (phonetds[1].text))
+                                #datawriter.writerow([
+                                   # phonetds[1].text])
+                    
+    
+                datawriter.writerow([phonenames[0].text,
+                phoneinfo[0].text.split('Color: ')[1],
+                phoneinfo[1].text.split('OS: ')[1],                       
+                phonetds[1].text])
 
-
-
+    
+    
+    
+    
 
 
