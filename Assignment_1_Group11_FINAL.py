@@ -49,6 +49,8 @@ phone_details = soup.find('div', attrs={'id' : 'phonelist'}).find_all('li')
 #indexing to get required iPhone details
 iphone_os = phone_details[6].text
 iphone_color = phone_details[5].text
+
+#print iPhone details
 print('***Task #2')
 print('The following are values for the iPhone 11 Pro')
 print(iphone_os)
@@ -60,6 +62,7 @@ print(iphone_color)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 #from what I can see we can hardcode this task
+#seting url
 iphone_url = 'http://drd.ba.ttu.edu/isqs6339/assign/assign_1/phone.php?id=1341'
 res3 = r.get(iphone_url)
 soup3 = BeautifulSoup(res3.content, 'lxml') 
